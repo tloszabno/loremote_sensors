@@ -7,11 +7,11 @@ test:
 	nosetests
 
 run:
-	sudo python app.py
+	sudo python2 app.py
 
 
 run-mocked:
-	sudo python app.py --mocked
+	sudo python2 app.py --mocked
 
 
 clean:
