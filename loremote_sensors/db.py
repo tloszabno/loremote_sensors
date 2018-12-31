@@ -1,8 +1,6 @@
 import sqlite3
 
 from loremote_sensors.config import db_path
-from datetime import datetime
-
 from loremote_sensors.dto import PmMeasurement
 
 
@@ -17,6 +15,7 @@ class MeasurementsDAO(object):
             cursor.execute('''INSERT INTO PM_MEASUREMENTS(PM10, PM25, TIME) VALUES (?, ?, ?)''',
                            (measurement.pm10, measurement.pm2_5, measurement.time))
             conn.commit()
+            print("save_pm_measurement: saved %s" % str(measurement))
 
     def get_last_pm_measurements(self, max=10):
         with sqlite3.connect(self.path) as conn:

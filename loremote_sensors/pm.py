@@ -4,7 +4,8 @@ import traceback
 import RPi.GPIO as gpio
 import serial
 
-from loremote_sensors.config import ports_config, pmsensor_port
+from loremote_sensors.config import pmsensor_port, PortConfig
+from loremote_sensors.dto import PmMeasurement
 
 NUMBER_OF_READS_BEFORE_SAVE_MEASUREMENT = 2
 SEEP_TIME_BEFORE_MEASUREMENT_OF_PM_IN_SEC = 30
@@ -19,7 +20,8 @@ class PmSensorFacade(object):
         try:
             time.sleep(SEEP_TIME_BEFORE_MEASUREMENT_OF_PM_IN_SEC)
             self.sensor_terminal = serial.Serial(pmsensor_port, 9600)
-            return self.__get_measurements__()
+            measurements = self.__get_measurements__()
+            return PmMeasurement(measurements[0], measurements[1])
         except Exception:
             print(str(traceback.format_exc()))
         finally:
@@ -33,11 +35,11 @@ class PmSensorFacade(object):
 
 
 def __turn_of_sensor__():
-    gpio.output(ports_config["pmsensor_switch"], False)
+    gpio.output(PortConfig.PMSENSOR_SWITCH, False)
 
 
 def __turn_on_sensor__():
-    gpio.output(ports_config["pmsensor_switch"], True)
+    gpio.output(PortConfig.PMSENSOR_SWITCH, True)
 
 
 def __read_measurements_from_sensor__(terminal):
