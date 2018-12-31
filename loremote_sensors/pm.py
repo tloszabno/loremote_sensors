@@ -14,6 +14,7 @@ SEEP_TIME_BEFORE_MEASUREMENT_OF_PM_IN_SEC = 30
 class PmSensorFacade(object):
     def __init__(self):
         self.sensor_terminal = None
+        self.__setup_gpio__()
 
     def get_pm_reading(self):
         __turn_on_sensor__()
@@ -26,6 +27,11 @@ class PmSensorFacade(object):
             print(str(traceback.format_exc()))
         finally:
             __turn_of_sensor__()
+
+    def __setup_gpio__(self):
+        gpio.setmode(gpio.BOARD)
+        gpio.setup(PortConfig.PMSENSOR_SWITCH, gpio.OUT)
+        gpio.output(PortConfig.PMSENSOR_SWITCH, False)
 
     def __get_measurements__(self):
         for i in range(NUMBER_OF_READS_BEFORE_SAVE_MEASUREMENT):
