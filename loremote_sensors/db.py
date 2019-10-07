@@ -2,6 +2,7 @@ import sqlite3
 
 from loremote_sensors.config import db_path
 from loremote_sensors.dto import PmMeasurement
+from loremote_sensors.dto import HumidMeasurement
 
 
 class MeasurementsDAO(object):
@@ -17,6 +18,14 @@ class MeasurementsDAO(object):
             conn.commit()
             print("save_pm_measurement: saved %s" % str(measurement))
 
+    def save_humid_measurement(self, measurement):
+        with sqlite3.connect(self.path) as conn:
+            cursor = conn.cursor()
+            cursor.execute('''INSERT INTO HUMID_MEASUREMENTS(TEMPERATURE, HUMIDITY, TIME) VALUES (?, ?, ?)''',
+                           (measurement.temperature, measurement.humidity, measurement.time))
+            conn.commit()
+            print("save_humid_measurement: saved %s" % str(measurement))
+
     def get_last_pm_measurements(self, max=10):
         with sqlite3.connect(self.path) as conn:
             cursor = conn.cursor()
@@ -24,6 +33,15 @@ class MeasurementsDAO(object):
             for row in cursor.execute('''SELECT PM10, PM25, TIME from PM_MEASUREMENTS order by TIME desc limit ?''',
                                       (max,)):
                 results.append(PmMeasurement(pm10=row[0], pm2_5=row[1], time=row[2]))
+            return results
+
+    def get_last_humid_measurements(self, max=10):
+        with sqlite3.connect(self.path) as conn:
+            cursor = conn.cursor()
+            results = []
+            for row in cursor.execute('''SELECT TEMPERATURE, HUMIDITY, TIME from HUMID_MEASUREMENTS order by TIME desc limit ?''',
+                                      (max,)):
+                results.append(HumidMeasurement(temperature=row[0], humidity=row[1], time=row[2]))
             return results
 
     def __init_db__(self):
@@ -34,6 +52,12 @@ class MeasurementsDAO(object):
                  (ID INT PRIMARY KEY,
                  PM10   REAL    NOT NULL,
                  PM25   REAL    NOT NULL,
+                 TIME   TEXT,
+                 MARKS  INT);''')
+            cursor.execute('''CREATE TABLE IF NOT EXISTS HUMID_MEASUREMENTS
+                 (ID INT PRIMARY KEY,
+                 TEMPERATURE   REAL    NOT NULL,
+                 HUMIDITY   REAL    NOT NULL,
                  TIME   TEXT,
                  MARKS  INT);''')
             conn.commit()

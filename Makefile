@@ -7,11 +7,11 @@ test:
 	nosetests
 
 run:
-	sudo python2 app.py >> /home/pi/loremotelogs.txt 2>&1
+	sudo python app.py >> /home/pi/loremotelogs.txt 2>&1
 
 
 run-mocked:
-	sudo python2 app.py --mocked
+	sudo python app.py --mocked
 
 
 clean:

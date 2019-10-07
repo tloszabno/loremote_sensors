@@ -27,3 +27,30 @@ class PmMeasurement(object):
         if other.pm2_5 != self.pm2_5:
             return False
         return True
+
+class HumidMeasurement(object):
+    def __init__(self, temperature, humidity, time=None):
+        self.time = dateutil.parser.parse(time) if time else datetime.now()
+        self.temperature = temperature
+        self.humidity = humidity
+
+    def as_json(self):
+        return {
+            "temperature": str(self.temperature),
+            "humidity": str(self.humidity),
+            "time": str(self.time)
+        }
+
+    def __str__(self):
+        return "HumidMeasurement(pm10=%s, pm2_5=%s, time=%s)" % (str(self.temperature), str(self.humidity), str(self.time))
+
+    def __eq__(self, other):
+        if not other:
+            return False
+        if other.time != self.time:
+            return False
+        if other.humidity != self.humidity:
+            return False
+        if other.temperature != self.temperature:
+            return False
+        return True

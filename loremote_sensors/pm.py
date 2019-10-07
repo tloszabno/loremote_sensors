@@ -16,7 +16,6 @@ class PmSensorFacade(object):
         self.sensor_terminal = None
 
     def get_pm_reading(self):
-        print("get_pm_reading")
         try:
             self.sensor_terminal = serial.Serial(pmsensor_port, 9600)
             measurements = self.__get_measurements__()
@@ -32,7 +31,6 @@ class PmSensorFacade(object):
 
 
 def __read_measurements_from_sensor__(terminal):
-    print("__read_measurements_from_sensor__")
     def hex_show(argv):
         result = ''
         hLen = len(argv)
