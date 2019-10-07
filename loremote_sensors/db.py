@@ -29,6 +29,7 @@ class MeasurementsDAO(object):
     def __init_db__(self):
         with sqlite3.connect(self.path) as conn:
             cursor = conn.cursor()
+            print("__init_db__ creating table if not created before")
             cursor.execute('''CREATE TABLE IF NOT EXISTS PM_MEASUREMENTS
                  (ID INT PRIMARY KEY,
                  PM10   REAL    NOT NULL,

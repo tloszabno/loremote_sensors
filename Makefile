@@ -7,7 +7,7 @@ test:
 	nosetests
 
 run:
-	sudo python2 app.py
+	sudo python2 app.py >> /home/pi/loremotelogs.txt 2>&1
 
 
 run-mocked:

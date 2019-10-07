@@ -1,9 +1,5 @@
-class PortConfig:
-    PMSENSOR_SWITCH = 38
-
-
 class IntervalsConfig:
-    MEASURE_PM_INTERVAL_IN_MIN = 0.2
+    MEASURE_PM_INTERVAL_IN_MIN = 10
 
 
 

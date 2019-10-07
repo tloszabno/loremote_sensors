@@ -1,3 +1,5 @@
+import traceback
+
 import flask
 from flask import Flask
 
@@ -13,9 +15,12 @@ def get_last_pms(max):
 
 
 def run_web_server(app_context):
-    global context  # flask cannot work in class :(
-    context = app_context
-    app.run(host='0.0.0.0', port=81)
+    try:
+        global context  # flask cannot work in class :(
+        context = app_context
+        app.run(host='0.0.0.0', port=81)
+    except Exception:
+        print(str(traceback.format_exc()))
 
 
 def Response(data=None, ok=True, errors=[]):

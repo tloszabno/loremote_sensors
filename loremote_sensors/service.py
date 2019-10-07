@@ -15,7 +15,7 @@ class MeasurementService(object):
 
     def start_periodical_measurements(self):
         self.__configure_measurements__()
-        self.__start_backgorund_measurements__()
+        self.__start_background_measurements__()
 
     def lock_till_end(self):
         if self.thread:
@@ -31,12 +31,14 @@ class MeasurementService(object):
         except Exception:
             traceback.print_exc(file=sys.stderr)
 
-    def __start_backgorund_measurements__(self):
+    def __start_background_measurements__(self):
+        print("__start_background_measurements__")
         self.thread = Thread(target=self.__scheduler_loop__)
         self.thread.daemon = True
         self.thread.start()
 
     def __scheduler_loop__(self):
         while self.thread.is_alive():
+            print("run_pending...")
             schedule.run_pending()
             time.sleep(10)
