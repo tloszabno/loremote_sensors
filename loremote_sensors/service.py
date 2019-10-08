@@ -2,6 +2,7 @@ import sys
 import time
 import traceback
 from threading import Thread
+from loremote_sensors.dto import Measurement
 
 import schedule
 
@@ -23,20 +24,15 @@ class MeasurementService(object):
             self.thread.join()
 
     def __configure_measurements__(self):
-        schedule.every(IntervalsConfig.MEASURE_PM_INTERVAL_IN_MIN).minutes.do(self.__measure_pm__)
-        schedule.every(IntervalsConfig.MEASURE_HUMID_INTERVAL_IN_MIN).minutes.do(self.__measure_humid__)
+        schedule.every(IntervalsConfig.MEASURE_INTERVAL_IN_MIN).minutes.do(self.__measure__)
 
-    def __measure_pm__(self):
+    def __measure__(self):
         try:
-            reading = self.pmSensor.get_pm_reading()
-            self.dao.save_pm_measurement(reading)
-        except Exception:
-            traceback.print_exc(file=sys.stderr)
-
-    def __measure_humid__(self):
-        try:
-            reading = self.humidSensor.get_humid_reading()
-            self.dao.save_humid_measurement(reading)
+            #todo async:
+            humid = self.humidSensor.get_humid_reading()
+            pm = self.pmSensor.get_pm_reading()
+            measurement = Measurement(pm=pm, humid=humid)
+            self.dao.save_measurement(measurement)
         except Exception:
             traceback.print_exc(file=sys.stderr)
 

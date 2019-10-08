@@ -1,17 +1,17 @@
 
 init:
-	sudo pip install -r requirements.txt
+	sudo pip3 install -r requirements.txt
 
 
 test:
-	nosetests
+	nosetests3
 
 run:
-	sudo python app.py >> /home/pi/loremotelogs.txt 2>&1
+	sudo python3 app.py >> /home/pi/loremotelogs.txt 2>&1
 
 
 run-mocked:
-	sudo python app.py --mocked
+	sudo python3 app.py --mocked
 
 
 clean:

@@ -2,23 +2,17 @@ import traceback
 
 import flask
 from flask import Flask
+import simplejson as json
 
 context = None
 app = Flask(__name__, static_folder='web')
 
 
-@app.route('/pms/<max>')
+@app.route('/measurements/<max>')
 def get_last_pms(max):
-    last_pm_measurements = context.dao.get_last_pm_measurements(max=int(max))
-    result = map(lambda x: x.as_json(), last_pm_measurements)
-    return flask.jsonify(Response(data=result))
-
-
-@app.route('/humid/<max>')
-def get_last_humid(max):
-    last_humid_measurements = context.dao.get_last_humid_measurements(max=int(max))
-    result = map(lambda x: x.as_json(), last_humid_measurements)
-    return flask.jsonify(Response(data=result))
+    last_measurements = context.dao.get_last_measurements(max=int(max))
+    result = list(map(lambda x: x.as_json(), last_measurements))
+    return json.dumps(Response(data=result))
 
 
 def run_web_server(app_context):

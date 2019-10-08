@@ -6,3 +6,4 @@ Flask>=0.12
 requests
 serial
 python-dateutil
+simplejson

@@ -12,5 +12,6 @@ class Context(object):
             self.humidSensor = MockedHumidSensorFacade()
         else:
             from loremote_sensors.pm import PmSensorFacade
+            from loremote_sensors.humid import HumidSensorFacade
             self.pmSensor = PmSensorFacade()
-            #TODO
+            self.humidSensor = HumidSensorFacade()

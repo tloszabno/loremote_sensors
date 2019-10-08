@@ -1,9 +1,9 @@
 class IntervalsConfig:
-    MEASURE_PM_INTERVAL_IN_MIN = 10
-    MEASURE_HUMID_INTERVAL_IN_MIN = 5
-
+    MEASURE_INTERVAL_IN_MIN = 0.1
 
 
 pmsensor_port = "/dev/ttyUSB0"
+humid_sensor_type = "22"
+humid_sensor_port = "15"
 
 db_path = "loremote_sensors.sqlite"
