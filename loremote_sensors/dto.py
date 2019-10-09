@@ -36,7 +36,7 @@ class HumidMeasurement(object):
         }
 
     def __str__(self):
-        return "HumidMeasurement(pm10=%s, pm2_5=%s)" % (str(self.temperature), str(self.humidity))
+        return "HumidMeasurement(temperature=%s, humidity=%s)" % (str(self.temperature), str(self.humidity))
 
     def __eq__(self, other):
         if not other:

@@ -4,7 +4,7 @@ init:
 
 
 test:
-	nosetests3
+	python3 -m "nose"
 
 run:
 	sudo python3 app.py >> /home/pi/loremotelogs.txt 2>&1

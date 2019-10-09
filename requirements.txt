@@ -4,6 +4,6 @@ schedule>=0.3.2
 mockito>=0.7.0
 Flask>=0.12
 requests
-serial
+pyserial
 python-dateutil
 simplejson
