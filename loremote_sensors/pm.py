@@ -1,4 +1,3 @@
-import time
 import traceback
 
 import RPi.GPIO as gpio
@@ -7,27 +6,30 @@ import serial
 from loremote_sensors.config import pmsensor_port
 from loremote_sensors.dto import PmMeasurement
 
-NUMBER_OF_READS_BEFORE_SAVE_MEASUREMENT = 2
-SEEP_TIME_BEFORE_MEASUREMENT_OF_PM_IN_SEC = 30
+NUMBER_OF_READS = 3
+RETRIES = 3
+
 
 class PmSensorFacade(object):
     def __init__(self):
         self.sensor_terminal = None
 
-    def get_pm_reading(self):
-        print("get_pm_reading")
+    def get_pm_reading(self, attempt=0):
         try:
             self.sensor_terminal = serial.Serial(pmsensor_port, 9600)
             measurements = self.__get_measurements__()
             return PmMeasurement(measurements[0], measurements[1])
-        except Exception:
-            print(str(traceback.format_exc()))
+        except Exception as e:
+            if attempt >= RETRIES:
+                raise e
+            else:
+                return self.get_pm_reading(attempt=attempt+1)
 
     def __get_measurements__(self):
-        for i in range(NUMBER_OF_READS_BEFORE_SAVE_MEASUREMENT):
-            __read_measurements_from_sensor__(self.sensor_terminal)
-            time.sleep(1)
-        return __read_measurements_from_sensor__(self.sensor_terminal)
+        readings = [__read_measurements_from_sensor__(
+            self.sensor_terminal) for i in range(NUMBER_OF_READS)]
+        avgs = tuple(map(lambda y: sum(y) / float(len(y)), zip(*readings)))
+        return avgs[0], avgs[1]
 
 
 def __read_measurements_from_sensor__(terminal):

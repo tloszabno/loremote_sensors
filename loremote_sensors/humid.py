@@ -3,7 +3,7 @@ import traceback
 import loremote_sensors.config as config
 from loremote_sensors.dto import HumidMeasurement
 
-NUMBER_OF_READS = 2
+NUMBER_OF_READS = 3
 RETRIES = 3
 
 
