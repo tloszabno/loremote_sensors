@@ -9,7 +9,7 @@ app = Flask(__name__, static_folder='web')
 
 
 @app.route('/measurements/<max>')
-def get_last_pms(max):
+def get_last_measurements(max):
     last_measurements = context.dao.get_last_measurements(max=int(max))
     result = list(map(lambda x: x.as_json(), last_measurements))
     return json.dumps(Response(data=result))
