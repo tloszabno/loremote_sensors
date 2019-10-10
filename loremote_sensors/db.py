@@ -15,7 +15,7 @@ class MeasurementsDAO(object):
             cursor.execute('''INSERT INTO MEASUREMENTS(PM10, PM25, TEMPERATURE, HUMIDITY, TIME) VALUES (?, ?, ?, ?, ?)''',
                            (measurement.pm.pm10, measurement.pm.pm2_5, measurement.humid.temperature, measurement.humid.humidity, measurement.time))
             conn.commit()
-            print("save_pm_measurement: saved %s" % str(measurement))
+            print("save_measurement: saved %s" % str(measurement))
 
     def get_last_measurements(self, max=10):
         with sqlite3.connect(self.path) as conn:

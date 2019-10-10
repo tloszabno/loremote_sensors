@@ -1,5 +1,5 @@
 class IntervalsConfig:
-    MEASURE_INTERVAL_IN_MIN = 0.1
+    MEASURE_INTERVAL_IN_MIN = 10
 
 
 pmsensor_port = "/dev/ttyUSB0"
