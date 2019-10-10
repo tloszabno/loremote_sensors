@@ -3,6 +3,8 @@ import time
 import traceback
 from threading import Thread
 from loremote_sensors.dto import Measurement
+from concurrent.futures import ThreadPoolExecutor
+
 
 import schedule
 
@@ -14,6 +16,7 @@ class MeasurementService(object):
         self.dao = context.dao
         self.pmSensor = context.pmSensor
         self.humidSensor = context.humidSensor
+        self.backgroundExecutor = ThreadPoolExecutor(max_workers=2)
 
     def start_periodical_measurements(self):
         self.__configure_measurements__()
@@ -29,19 +32,20 @@ class MeasurementService(object):
     def __measure__(self):
         try:
             #todo async:
-            humid = self.humidSensor.get_humid_reading()
-            pm = self.pmSensor.get_pm_reading()
-            measurement = Measurement(pm=pm, humid=humid)
+            humid_future = self.backgroundExecutor.submit(self.humidSensor.get_humid_reading)
+            pm_future = self.backgroundExecutor.submit(self.pmSensor.get_pm_reading)
+            measurement = Measurement(pm=pm_future.result(), humid=humid_future.result())
             self.dao.save_measurement(measurement)
         except Exception:
             traceback.print_exc(file=sys.stderr)
 
     def __start_background_measurements__(self):
-        self.thread = Thread(target=self.__scheduler_loop__)
+        self.thread = Thread(target=self.__execute_scheduled_measurements__)
         self.thread.daemon = True
         self.thread.start()
 
-    def __scheduler_loop__(self):
+    def __execute_scheduled_measurements__(self):
+        self.__measure__() # run first measurements instantly
         while self.thread.is_alive():
             schedule.run_pending()
             time.sleep(10)
