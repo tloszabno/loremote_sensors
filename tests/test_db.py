@@ -20,8 +20,9 @@ class TestDao(unittest.TestCase):
     def test_should_save_and_get_measurement(self):
         # given
         pm = PmMeasurement(pm10=10.0, pm2_5=2.5)
-        humid = HumidMeasurement(temperature=50.0, humidity=80)
-        measurement = Measurement(pm=pm, humid=humid)
+        humid1 = HumidMeasurement(temperature=50.0, humidity=80)
+        humid2 = HumidMeasurement(temperature=51.0, humidity=81)
+        measurement = Measurement(pm=pm, humid1=humid1, humid2=humid2)
 
         # when
         self.dao.save_measurement(measurement)

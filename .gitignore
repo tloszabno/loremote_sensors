@@ -2,3 +2,4 @@
 .idea
 loremote_sensors.sqlite
 test_db.sqlite
+.vscode
