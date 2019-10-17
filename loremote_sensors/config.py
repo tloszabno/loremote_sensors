@@ -14,4 +14,4 @@ class HumidSensor(Enum):
 
 humid_sensor_port = dict()
 humid_sensor_port[HumidSensor.SENSOR_1] = "15"
-humid_sensor_port[HumidSensor.SENSOR_2] = "15"
+humid_sensor_port[HumidSensor.SENSOR_2] = "24"
