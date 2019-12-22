@@ -29,5 +29,5 @@ class TestMeasurementService(unittest.TestCase):
         verify(self.sensor2).measure()
 
         # and
-        verify(self.repo1).save(arg_that(lambda dto: len(dto) == 6))
-        verify(self.repo2).save(arg_that(lambda dto: len(dto) == 6))
+        verify(self.repo1).save(arg_that(lambda dto: len(dto.values) == 6))
+        verify(self.repo2).save(arg_that(lambda dto: len(dto.values) == 6))

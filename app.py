@@ -1,9 +1,9 @@
 from app.measurement.MeasurementService import MeasurementService
-from app.shared.measurement import Measurement
+from app.shared.measurement import MeasurementsSet
 
 
 def main():
-    m = Measurement("some sensor", "humidity", 0.9, "%")
+    m = MeasurementsSet("some sensor", "humidity", 0.9, "%")
     measurement_service = MeasurementService()
 
 

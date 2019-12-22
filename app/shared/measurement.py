@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 from datetime import datetime
+from typing import List
 
 
 @dataclass
@@ -17,4 +18,18 @@ class Measurement(object):
             "value": str(self.value),
             "unit": str(self.unit),
             "timestamp": str(self.timestamp)
+        }
+
+
+@dataclass
+class MeasurementsSet(object):
+    id: str
+    timestamp: datetime
+    values: List[Measurement]
+
+    def to_json(self):
+        return {
+            "id": self.id,
+            "timestamp": str(self.timestamp),
+            "measurements": [x.to_json() for x in self.values]
         }
