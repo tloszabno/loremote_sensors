@@ -1,4 +1,5 @@
-from dataclasses import dataclass
+import uuid
+from dataclasses import dataclass, field
 from datetime import datetime
 from typing import List
 
@@ -9,7 +10,7 @@ class Measurement(object):
     measurement_name: str
     value: float
     unit: str
-    timestamp: datetime = datetime.now()
+    timestamp: datetime = field(default_factory=datetime.now)
 
     def to_json(self):
         return {
@@ -17,19 +18,19 @@ class Measurement(object):
             "measurement_name": self.measurement_name,
             "value": str(self.value),
             "unit": str(self.unit),
-            "timestamp": str(self.timestamp)
+            "timestamp": self.timestamp.isoformat()
         }
 
 
 @dataclass
 class MeasurementsSet(object):
-    id: str
-    timestamp: datetime
     values: List[Measurement]
+    timestamp: datetime = field(default_factory=datetime.now)
+    id: str = field(default_factory=lambda: str(uuid.uuid4()))
 
     def to_json(self):
         return {
             "id": self.id,
-            "timestamp": str(self.timestamp),
+            "timestamp": self.timestamp.isoformat(),
             "measurements": [x.to_json() for x in self.values]
         }
