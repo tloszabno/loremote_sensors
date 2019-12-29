@@ -16,3 +16,7 @@ DB_PATH = "measurements.sqlite"
 
 # time
 MEASURE_INTERVAL_IN_MIN = 10
+
+# cache
+DAYS_IN_CACHE = 1
+ELEMENTS_IN_CACHE = (60 / MEASURE_INTERVAL_IN_MIN) * 24 * DAYS_IN_CACHE
