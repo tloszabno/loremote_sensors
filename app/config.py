@@ -13,4 +13,4 @@ SENSOR_PORT_PM = "/dev/ttyUSB0"
 DB_PATH = "measurements.sqlite"
 
 # time
-MEASURE_INTERVAL_IN_MIN = 0.5
+MEASURE_INTERVAL_IN_MIN = 10
