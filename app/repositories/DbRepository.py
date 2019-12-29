@@ -41,9 +41,9 @@ class DbRepository(Repository):
     def get_last(self, max=100):
         with sqlite3.connect(self.path) as conn:
             cursor = conn.cursor()
-            results = []
             set_ids = list(map(lambda x: x[0], cursor.execute(
-                '''SELECT MEASUREMENTS_SET_ID FROM MEASUREMENTS order by MEASUREMENTS_SET_TIMESTAMP desc limit ?''',
+                '''SELECT DISTINCT MEASUREMENTS_SET_ID FROM MEASUREMENTS 
+                order by MEASUREMENTS_SET_TIMESTAMP desc limit ?''',
                 (max,))))
             sql = f'''
                 SELECT 
