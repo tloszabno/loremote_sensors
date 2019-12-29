@@ -9,7 +9,7 @@ RETRIES = 3
 
 
 class PmSensor(Sensor):
-    def __init__(self, sensor_name, port):
+    def __init__(self, sensor_name: str, port: str):
         self.sensor_terminal = None
         self.sensor_name = sensor_name
         self.port = port

@@ -6,7 +6,7 @@ RETRIES = 3
 
 
 class HumidSensor(Sensor):
-    def __init__(self, sensor_name, port):
+    def __init__(self, sensor_name: str, port: int):
         self.sensor_name = sensor_name
         self.port = port
 

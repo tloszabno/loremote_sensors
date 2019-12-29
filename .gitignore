@@ -1,5 +1,4 @@
 *.pyc
 .idea
-loremote_sensors.sqlite
-test_db.sqlite
+*.sqlite
 .vscode
