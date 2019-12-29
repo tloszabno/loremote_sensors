@@ -2,7 +2,7 @@ from app.sensors.Sensor import Sensor
 
 import serial
 
-from app.shared.measurement import Measurement
+from app.measurement.Measurement import Measurement
 
 NUMBER_OF_READS = 3
 RETRIES = 3

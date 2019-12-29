@@ -1,4 +1,4 @@
-from app.shared.measurement import MeasurementsSet
+from app.measurement.Measurement import MeasurementsSet
 
 
 class Listener(object):

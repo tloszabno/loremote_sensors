@@ -3,7 +3,7 @@ import sqlite3
 import dateutil.parser
 
 from app.repositories.Repository import Repository
-from app.shared.measurement import MeasurementsSet, Measurement
+from app.measurement.Measurement import MeasurementsSet, Measurement
 
 
 class DbRepository(Repository):

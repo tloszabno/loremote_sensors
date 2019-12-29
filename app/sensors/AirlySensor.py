@@ -1,19 +1,22 @@
 from typing import List
 
-from app import tokens
-from app.sensors.Sensor import Sensor
-from app.shared.measurement import Measurement
 import requests
+
+from app.sensors.Sensor import Sensor
+from app.measurement.Measurement import Measurement
 
 
 class AirlySensor(Sensor):
-    def __init__(self, sensor_name):
+    def __init__(self, sensor_name, token, installation_id):
         self.senor_name = sensor_name
+        self.token = token
+        self.installation_id = installation_id
 
     def measure(self) -> List[Measurement]:
-        headers = {'apikey': tokens.airly, 'Accept': 'application/json'}
-        response = requests.get('https://airapi.airly.eu/v2/measurements/installation?installationId=9899',
-                                headers=headers).json()
+        headers = {'apikey': self.token, 'Accept': 'application/json'}
+        response = requests.get(
+            'https://airapi.airly.eu/v2/measurements/installation?installationId=' + self.installation_id,
+            headers=headers).json()
         current = response['current']['values']
         pm25 = get_value(current, 'PM25')
         pm10 = get_value(current, 'PM10')
@@ -37,7 +40,6 @@ class AirlySensor(Sensor):
                         unit="ug/m^3",
                         value=pm25),
         ]
-        print(measurements)
         return measurements
 
 

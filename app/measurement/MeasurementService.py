@@ -1,10 +1,9 @@
-from datetime import datetime
 from typing import List
 
 from app.listeners.Listener import Listener
 from app.repositories.Repository import Repository
 from app.sensors.Sensor import Sensor
-from app.shared.measurement import MeasurementsSet
+from app.measurement.Measurement import MeasurementsSet
 
 
 class MeasurementService(object):

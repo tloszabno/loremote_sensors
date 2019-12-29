@@ -9,6 +9,7 @@ SENSOR_NAME_PM = "pm sensor"
 SENSOR_PORT_PM = "/dev/ttyUSB0"
 
 SENSOR_AIRLY_NAME = "Airly Slomczynskiego"
+SENSOR_AIRLY_INSTALLATION_ID = "9899"
 
 # db
 DB_PATH = "measurements.sqlite"

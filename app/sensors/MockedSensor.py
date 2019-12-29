@@ -1,5 +1,5 @@
 from app.sensors.Sensor import Sensor
-from app.shared.measurement import Measurement
+from app.measurement.Measurement import Measurement
 
 
 class MockedSensor(Sensor):

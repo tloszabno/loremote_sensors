@@ -1,6 +1,6 @@
 from typing import List
 
-from app.shared.measurement import Measurement
+from app.measurement.Measurement import Measurement
 
 
 class Sensor(object):

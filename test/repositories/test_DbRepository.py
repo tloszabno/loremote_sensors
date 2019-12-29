@@ -5,7 +5,7 @@ import unittest
 from hamcrest import assert_that, equal_to
 
 from app.repositories.DbRepository import DbRepository
-from app.shared.measurement import MeasurementsSet, Measurement
+from app.measurement.Measurement import MeasurementsSet, Measurement
 
 TEST_DB_PATH = "test_db.sqlite"
 
