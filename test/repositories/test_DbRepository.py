@@ -39,3 +39,16 @@ class TestDbRepository(unittest.TestCase):
         assert_that(len(last), equal_to(2))
         assert_that(last[0], equal_to(home_set))
         assert_that(last[1], equal_to(out_set))
+
+    def test_should_save_and_get_measurement_with_error(self):
+        # given
+        measurement_home_humid = Measurement(sensor_name="home_humid", measurement_name="humidity", unit="%", error="Device not available")
+        home_set = MeasurementsSet([measurement_home_humid])
+
+        # when
+        self.repository.save(home_set)
+
+        # then
+        last = self.repository.get_last()
+        assert_that(len(last), equal_to(1))
+        assert_that(last[0], equal_to(home_set))

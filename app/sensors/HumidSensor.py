@@ -25,6 +25,12 @@ class HumidSensor(Sensor):
             return Adafruit_DHT.read_retry(Adafruit_DHT.DHT22, port)
         except Exception as e:
             if attempt >= RETRIES:
-                raise e
+                temperature = Measurement(sensor_name=self.sensor_name, measurement_name="temperature",
+                                          error=str(e),
+                                          unit="C")
+                humidity = Measurement(sensor_name=self.sensor_name, measurement_name="humidity",
+                                       error=str(e),
+                                       unit="%")
+                return [temperature, humidity]
             else:
                 return self.__get_readings_with_retry__(port=port, attempt=attempt + 1)

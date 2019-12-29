@@ -12,7 +12,7 @@ app = Flask(__name__, static_folder='web')
 @app.route('/measurements/<max>')
 def get_last_measurements(max):
     last_measurements = repository.get_last(max=int(max))
-    last_measurements = sorted(last_measurements, key=lambda x: x.timestamp)
+    last_measurements = sorted(last_measurements, key=lambda x: x.timestamp, reverse=True)
     result = list(map(lambda x: x.to_json(), last_measurements))
     return json.dumps(Response(data=result))
 

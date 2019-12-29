@@ -8,9 +8,10 @@ from typing import List
 class Measurement(object):
     sensor_name: str
     measurement_name: str
-    value: float
     unit: str
+    value: float = 0.0
     timestamp: datetime = field(default_factory=datetime.now)
+    error: str = ""
 
     def to_json(self):
         return {
@@ -18,7 +19,8 @@ class Measurement(object):
             "measurement_name": self.measurement_name,
             "value": str(self.value),
             "unit": str(self.unit),
-            "timestamp": self.timestamp.isoformat()
+            "timestamp": self.timestamp.isoformat(),
+            "error": self.error
         }
 
 

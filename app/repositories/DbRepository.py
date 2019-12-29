@@ -22,7 +22,8 @@ class DbRepository(Repository):
                     value.measurement_name,
                     value.value,
                     value.unit,
-                    value.timestamp.isoformat()
+                    value.timestamp.isoformat(),
+                    value.error
                 )
                 cursor.execute('''INSERT INTO MEASUREMENTS(
                     MEASUREMENTS_SET_ID,
@@ -31,9 +32,10 @@ class DbRepository(Repository):
                     MEASUREMENT_NAME,
                     VALUE,
                     UNIT,
-                    TIMESTAMP
+                    TIMESTAMP,
+                    ERROR
                 ) 
-                VALUES(?,?,?,?,?,?,?)''', parameters)
+                VALUES(?,?,?,?,?,?,?,?)''', parameters)
             conn.commit()
 
     def get_last(self, max=100):
@@ -51,7 +53,8 @@ class DbRepository(Repository):
                     SENSOR_NAME,
                     VALUE,
                     UNIT,
-                    TIMESTAMP 
+                    TIMESTAMP,
+                    ERROR
                     FROM MEASUREMENTS where MEASUREMENTS_SET_ID in ({','.join(['?'] * len(set_ids))})
                     order by MEASUREMENTS_SET_TIMESTAMP
             '''
@@ -66,7 +69,8 @@ class DbRepository(Repository):
                     measurement_name=row[2],
                     value=row[4],
                     unit=row[5],
-                    timestamp=dateutil.parser.parse(row[6])))
+                    timestamp=dateutil.parser.parse(row[6]),
+                    error=row[7]))
             return sorted([MeasurementsSet(values=value[1], timestamp=value[0], id=key) for key, value in
                            measurement_sets.items()], key=lambda x: x.timestamp)
 
@@ -82,5 +86,6 @@ class DbRepository(Repository):
                   SENSOR_NAME                   REAL    NOT NULL,
                   VALUE                         REAL    NOT NULL,
                   UNIT                          REAL    NOT NULL,
+                  ERROR                         TEXT,
                   TIMESTAMP                     TEXT    NOT NULL);''')
             conn.commit()

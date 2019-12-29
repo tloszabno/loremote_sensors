@@ -25,7 +25,11 @@ class PmSensor(Sensor):
             return [pm10, pm25]
         except Exception as e:
             if attempt >= RETRIES:
-                raise e
+                pm10 = Measurement(sensor_name=self.sensor_name, measurement_name="pm_10", error=str(e),
+                                   unit="ug/m^3")
+                pm25 = Measurement(sensor_name=self.sensor_name, measurement_name="pm_2.5", error=str(e),
+                                   unit="ug/m^3")
+                return [pm10, pm25]
             else:
                 return self.measure(attempt=attempt + 1)
 
