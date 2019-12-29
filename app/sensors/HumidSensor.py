@@ -11,7 +11,7 @@ class HumidSensor(Sensor):
         self.port = port
 
     def measure(self):
-        readings = [self.__get_readings_with_retry__(self.sensor_name, self.port) for i in range(NUMBER_OF_READS)]
+        readings = [self.__get_readings_with_retry__(self.port) for _ in range(NUMBER_OF_READS)]
         avgs = tuple(map(lambda y: sum(y) / float(len(y)), zip(*readings)))
         temperature = Measurement(sensor_name=self.sensor_name, measurement_name="temperature", value=float(avgs[1]),
                                   unit="C")
