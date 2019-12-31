@@ -20,3 +20,4 @@ class MeasurementService(object):
         self.repository.save(measurement)
         for repository in self.listeners:
             repository.notify(measurement)
+1
