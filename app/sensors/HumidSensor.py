@@ -11,12 +11,19 @@ class HumidSensor(Sensor):
         self.port = port
 
     def measure(self):
-        readings = [self.__get_readings_with_retry__(self.port) for _ in range(NUMBER_OF_READS)]
-        avgs = tuple(map(lambda y: sum(y) / float(len(y)), zip(*readings)))
-        temperature = Measurement(sensor_name=self.sensor_name, measurement_name="temperature", value=float(avgs[1]),
-                                  unit="C")
-        humidity = Measurement(sensor_name=self.sensor_name, measurement_name="humidity", value=float(avgs[0]),
-                               unit="%")
+        temp_value, humidity_value, error = 0.0, 0.0, ""
+        try:
+            readings = [self.__get_readings_with_retry__(self.port) for _ in range(NUMBER_OF_READS)]
+            avgs = tuple(map(lambda y: sum(y) / float(len(y)), zip(*readings)))
+            temp_value = float(avgs[1])
+            humidity_value = float(avgs[0])
+        except Exception as e:
+            error = str(e)
+
+        temperature = Measurement(sensor_name=self.sensor_name, measurement_name="temperature", value=temp_value,
+                                  unit="C", error=error)
+        humidity = Measurement(sensor_name=self.sensor_name, measurement_name="humidity", value=humidity_value,
+                               unit="%", error=error)
         return [temperature, humidity]
 
     def __get_readings_with_retry__(self, port, attempt=0):
@@ -25,12 +32,6 @@ class HumidSensor(Sensor):
             return Adafruit_DHT.read_retry(Adafruit_DHT.DHT22, port)
         except Exception as e:
             if attempt >= RETRIES:
-                temperature = Measurement(sensor_name=self.sensor_name, measurement_name="temperature",
-                                          error=str(e),
-                                          unit="C")
-                humidity = Measurement(sensor_name=self.sensor_name, measurement_name="humidity",
-                                       error=str(e),
-                                       unit="%")
-                return [temperature, humidity]
+                raise e
             else:
                 return self.__get_readings_with_retry__(port=port, attempt=attempt + 1)

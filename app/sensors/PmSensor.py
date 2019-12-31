@@ -15,23 +15,22 @@ class PmSensor(Sensor):
         self.port = port
 
     def measure(self, attempt=0):
+        pm10_value, pm25_value, error = 0.0, 0.0, ""
         try:
             self.sensor_terminal = serial.Serial(self.port, 9600)
             measurements = self.__get_measurements__()
-            pm10 = Measurement(sensor_name=self.sensor_name, measurement_name="pm_10", value=float(measurements[0]),
-                               unit="ug/m^3")
-            pm25 = Measurement(sensor_name=self.sensor_name, measurement_name="pm_2.5", value=float(measurements[1]),
-                               unit="ug/m^3")
-            return [pm10, pm25]
+            pm10_value = float(measurements[0])
+            pm25_value = float(measurements[1])
         except Exception as e:
             if attempt >= RETRIES:
-                pm10 = Measurement(sensor_name=self.sensor_name, measurement_name="pm_10", error=str(e),
-                                   unit="ug/m^3")
-                pm25 = Measurement(sensor_name=self.sensor_name, measurement_name="pm_2.5", error=str(e),
-                                   unit="ug/m^3")
-                return [pm10, pm25]
+                error = str(e)
             else:
                 return self.measure(attempt=attempt + 1)
+        pm10 = Measurement(sensor_name=self.sensor_name, measurement_name="pm_10", value=pm10_value,
+                           unit="ug/m^3", error=error)
+        pm25 = Measurement(sensor_name=self.sensor_name, measurement_name="pm_2.5", value=pm25_value,
+                           unit="ug/m^3", error=error)
+        return [pm10, pm25]
 
     def __get_measurements__(self):
         readings = [__read_measurements_from_sensor__(
