@@ -1,6 +1,8 @@
 # sensors
-SENSOR_NAME_HUMID_1 = "humid home 1"
+SENSOR_NAME_HUMID_1 = "Outside"
 SENSOR_PORT_HUMID_1 = "21"
+
+SENSOR_NAME_HUMID_2 = "Home"
 
 SENSOR_NAME_PM = "pm sensor"
 SENSOR_PORT_PM = "/dev/ttyUSB0"
