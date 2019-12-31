@@ -7,7 +7,7 @@ test:
 	python3 -m "nose"
 
 run:
-	sudo python3 app.py &> /home/pi/loremotelogs.txt
+	sudo python3 app.py > /home/pi/loremotelogs.txt 2> /home/pi/loremotelogs_errors.txt
 
 
 run-mocked:
