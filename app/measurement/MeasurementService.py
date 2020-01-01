@@ -5,6 +5,7 @@ from app.repositories.Repository import Repository
 from app.sensors.Sensor import Sensor
 from app.measurement.Measurement import MeasurementsSet
 from concurrent.futures import ThreadPoolExecutor
+import itertools
 
 
 class MeasurementService(object):
@@ -17,10 +18,13 @@ class MeasurementService(object):
     def measure(self):
         all_measurements_futures = []
         for sensor in self.sensors:
-            all_measurements_futures += self.backgroundExecutor.submit(sensor.measure)
+            all_measurements_futures.append(self.backgroundExecutor.submit(sensor.measure))
         all_measurements = [x.result() for x in all_measurements_futures]
+        all_measurements = list(itertools.chain(*all_measurements))
         measurement = MeasurementsSet(all_measurements)
         self.repository.save(measurement)
         for repository in self.listeners:
             repository.notify(measurement)
+
+
 1
