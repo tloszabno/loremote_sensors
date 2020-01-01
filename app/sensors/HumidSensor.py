@@ -35,7 +35,7 @@ class HumidSensor(Sensor):
         try:
             import Adafruit_DHT
             read = Adafruit_DHT.read_retry(Adafruit_DHT.DHT22, port)
-            print("Humid reading: %s" % read)
+            print("Humid reading: %s" % str(read))
             return read
         except Exception as e:
             if attempt >= RETRIES:
