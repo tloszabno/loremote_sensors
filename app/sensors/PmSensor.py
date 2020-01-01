@@ -26,7 +26,7 @@ class PmSensor(Sensor):
         except Exception as e:
             if attempt >= RETRIES:
                 error = str(e)
-                print(str(traceback.format_exc()))
+                traceback.print_stack(file=sys.stderr)
             else:
                 return self.measure(attempt=attempt + 1)
         pm10 = Measurement(sensor_name=self.sensor_name, measurement_name="pm_10", value=pm10_value,

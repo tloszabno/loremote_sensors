@@ -40,5 +40,5 @@ class BmeSensor(Sensor):
             temp_data, pressure_data, humidity_data = sensor.get_data()
         except Exception as e:
             error = str(e)
-            print(str(traceback.format_exc()))
+            traceback.print_stack(file=sys.stderr)
         return error, humidity_data, pressure_data / 100.0, temp_data

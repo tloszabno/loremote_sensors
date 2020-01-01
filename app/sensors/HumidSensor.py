@@ -22,7 +22,7 @@ class HumidSensor(Sensor):
             humidity_value = float(avgs[0])
         except Exception as e:
             error = str(e)
-            print(str(traceback.format_exc()))
+            traceback.print_stack(file=sys.stderr)
         temperature = Measurement(sensor_name=self.sensor_name, measurement_name=MeasurementTypes.TEMPERATURE,
                                   value=temp_value,
                                   unit=MeasurementUnits.TEMPERATURE, error=error)

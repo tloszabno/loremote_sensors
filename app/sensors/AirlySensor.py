@@ -28,7 +28,7 @@ class AirlySensor(Sensor):
             humidity = get_value(current, 'HUMIDITY')
         except Exception as e:
             error = str(e)
-            print(str(traceback.format_exc()))
+            traceback.print_stack(file=sys.stderr)
 
         measurements = [
             Measurement(sensor_name=self.senor_name,

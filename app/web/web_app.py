@@ -23,7 +23,7 @@ def run_web_server(_repository):
         repository = _repository
         app.run(host='0.0.0.0', port=81)
     except Exception:
-        print(str(traceback.format_exc()))
+        traceback.print_stack(file=sys.stderr)
 
 
 def Response(data=None, ok=True, errors=[]):
