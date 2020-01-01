@@ -35,7 +35,7 @@ class BmeSensor(Sensor):
         temp_data, pressure_data, humidity_data = 0.0, 0.0, 0.0
         error = ""
         try:
-            from app.sensors.thirdparty.bme280 import Bme280, MODE_FORCED
+            from app.sensors.thirdparty.bme280.bme280 import Bme280, MODE_FORCED
             sensor = Bme280()
             sensor.set_mode(MODE_FORCED)
             temp_data, pressure_data, humidity_data = sensor.get_data()
