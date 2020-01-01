@@ -36,3 +36,21 @@ class MeasurementsSet(object):
             "timestamp": self.timestamp.isoformat(),
             "measurements": [x.to_json() for x in self.values]
         }
+
+    def get_all_with_name(self, measurement_name):
+        return list(filter(lambda x: x.measurement_name == measurement_name, self.values))
+
+
+class MeasurementUnits(object):
+    TEMPERATURE = "C"
+    HUMIDITY = "%"
+    AIR_POLLUTION = "ug/m^3"
+    PRESSURE = "hPa"
+
+
+class MeasurementTypes(object):
+    TEMPERATURE = "temperature"
+    HUMIDITY = "humidity"
+    PRESSURE = "pressure"
+    PM_10 = "pm 10"
+    PM_2_5 = "pm 2.5"

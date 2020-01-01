@@ -2,7 +2,7 @@ from app.sensors.Sensor import Sensor
 
 import serial
 
-from app.measurement.Measurement import Measurement
+from app.measurement.Measurement import Measurement, MeasurementUnits
 
 NUMBER_OF_READS = 3
 RETRIES = 3
@@ -27,9 +27,9 @@ class PmSensor(Sensor):
             else:
                 return self.measure(attempt=attempt + 1)
         pm10 = Measurement(sensor_name=self.sensor_name, measurement_name="pm_10", value=pm10_value,
-                           unit="ug/m^3", error=error)
+                           unit=MeasurementUnits.AIR_POLLUTION, error=error)
         pm25 = Measurement(sensor_name=self.sensor_name, measurement_name="pm_2.5", value=pm25_value,
-                           unit="ug/m^3", error=error)
+                           unit=MeasurementUnits.AIR_POLLUTION, error=error)
         return [pm10, pm25]
 
     def __get_measurements__(self):

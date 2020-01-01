@@ -1,5 +1,5 @@
 from app.sensors.Sensor import Sensor
-from app.measurement.Measurement import Measurement
+from app.measurement.Measurement import Measurement, MeasurementUnits, MeasurementTypes
 
 NUMBER_OF_READS = 3
 RETRIES = 3
@@ -20,10 +20,12 @@ class HumidSensor(Sensor):
         except Exception as e:
             error = str(e)
 
-        temperature = Measurement(sensor_name=self.sensor_name, measurement_name="temperature", value=temp_value,
-                                  unit="C", error=error)
-        humidity = Measurement(sensor_name=self.sensor_name, measurement_name="humidity", value=humidity_value,
-                               unit="%", error=error)
+        temperature = Measurement(sensor_name=self.sensor_name, measurement_name=MeasurementTypes.TEMPERATURE,
+                                  value=temp_value,
+                                  unit=MeasurementUnits.TEMPERATURE, error=error)
+        humidity = Measurement(sensor_name=self.sensor_name, measurement_name=MeasurementTypes.HUMIDITY,
+                               value=humidity_value,
+                               unit=MeasurementUnits.HUMIDITY, error=error)
         return [temperature, humidity]
 
     def __get_readings_with_retry__(self, port, attempt=0):

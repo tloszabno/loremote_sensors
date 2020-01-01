@@ -3,7 +3,7 @@ from typing import List
 import requests
 
 from app.sensors.Sensor import Sensor
-from app.measurement.Measurement import Measurement
+from app.measurement.Measurement import Measurement, MeasurementTypes, MeasurementUnits
 
 
 class AirlySensor(Sensor):
@@ -13,6 +13,7 @@ class AirlySensor(Sensor):
         self.installation_id = installation_id
 
     def measure(self) -> List[Measurement]:
+        pm25, pm10, temp, humidity, error = 0.0, 0.0, 0.0, 0.0, ""
         try:
             headers = {'apikey': self.token, 'Accept': 'application/json'}
             response = requests.get(
@@ -23,46 +24,28 @@ class AirlySensor(Sensor):
             pm10 = get_value(current, 'PM10')
             temp = get_value(current, 'TEMPERATURE')
             humidity = get_value(current, 'HUMIDITY')
-            measurements = [
-                Measurement(sensor_name=self.senor_name,
-                            measurement_name="temperature",
-                            unit="C",
-                            value=temp),
-                Measurement(sensor_name=self.senor_name,
-                            measurement_name="humidity",
-                            unit="%",
-                            value=humidity),
-                Measurement(sensor_name=self.senor_name,
-                            measurement_name="pm_10",
-                            unit="ug/m^3",
-                            value=pm10),
-                Measurement(sensor_name=self.senor_name,
-                            measurement_name="pm_2.5",
-                            unit="ug/m^3",
-                            value=pm25),
-            ]
-            return measurements
         except Exception as e:
             error = str(e)
-            measurements = [
-                Measurement(sensor_name=self.senor_name,
-                            measurement_name="temperature",
-                            unit="C",
-                            error=error),
-                Measurement(sensor_name=self.senor_name,
-                            measurement_name="humidity",
-                            unit="%",
-                            error=error),
-                Measurement(sensor_name=self.senor_name,
-                            measurement_name="pm_10",
-                            unit="ug/m^3",
-                            error=error),
-                Measurement(sensor_name=self.senor_name,
-                            measurement_name="pm_2.5",
-                            unit="ug/m^3",
-                            error=error),
-            ]
-            return measurements
+
+        measurements = [
+            Measurement(sensor_name=self.senor_name,
+                        measurement_name=MeasurementTypes.TEMPERATURE,
+                        unit=MeasurementUnits.TEMPERATURE,
+                        value=temp, error=error),
+            Measurement(sensor_name=self.senor_name,
+                        measurement_name=MeasurementTypes.HUMIDITY,
+                        unit=MeasurementUnits.HUMIDITY,
+                        value=humidity, error=error),
+            Measurement(sensor_name=self.senor_name,
+                        measurement_name=MeasurementTypes.PM_10,
+                        unit=MeasurementUnits.AIR_POLLUTION,
+                        value=pm10, error=error),
+            Measurement(sensor_name=self.senor_name,
+                        measurement_name=MeasurementTypes.PM_2_5,
+                        unit=MeasurementUnits.AIR_POLLUTION,
+                        value=pm25, error=error),
+        ]
+        return measurements
 
 
 def get_value(value_list, name):

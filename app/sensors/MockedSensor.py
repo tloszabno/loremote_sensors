@@ -1,5 +1,5 @@
 from app.sensors.Sensor import Sensor
-from app.measurement.Measurement import Measurement
+from app.measurement.Measurement import Measurement, MeasurementTypes, MeasurementUnits
 
 
 class MockedSensor(Sensor):
@@ -7,6 +7,8 @@ class MockedSensor(Sensor):
         self.sensor_name = sensor_name
 
     def measure(self):
-        temperature = Measurement(sensor_name=self.sensor_name, measurement_name="temperature", value=22.0, unit="C")
-        humidity = Measurement(sensor_name=self.sensor_name, measurement_name="humidity", value=50.0, unit="%")
+        temperature = Measurement(sensor_name=self.sensor_name, measurement_name=MeasurementTypes.TEMPERATURE,
+                                  value=22.0, unit=MeasurementUnits.TEMPERATURE)
+        humidity = Measurement(sensor_name=self.sensor_name, measurement_name=MeasurementTypes.HUMIDITY, value=50.0,
+                               unit=MeasurementUnits.HUMIDITY)
         return [temperature, humidity]

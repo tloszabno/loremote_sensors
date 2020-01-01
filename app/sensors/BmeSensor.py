@@ -1,6 +1,6 @@
 from typing import List
 
-from app.measurement.Measurement import Measurement
+from app.measurement.Measurement import Measurement, MeasurementTypes, MeasurementUnits
 from app.sensors.Sensor import Sensor
 
 
@@ -10,12 +10,21 @@ class BmeSensor(Sensor):
 
     def measure(self) -> List[Measurement]:
         error, humidity_data, pressure_data, temp_data = self.__measure__()
-        temperature = Measurement(sensor_name=self.sensor_name, measurement_name="temperature", value=temp_data,
-                                  unit="C", error=error)
-        humidity = Measurement(sensor_name=self.sensor_name, measurement_name="humidity", value=float(humidity_data),
-                               unit="%", error=error)
-        pressure = Measurement(sensor_name=self.sensor_name, measurement_name="pressure", value=float(pressure_data),
-                               unit="hPa", error=error)
+        temperature = Measurement(sensor_name=self.sensor_name,
+                                  measurement_name=MeasurementTypes.TEMPERATURE,
+                                  value=temp_data,
+                                  unit=MeasurementUnits.TEMPERATURE,
+                                  error=error)
+        humidity = Measurement(sensor_name=self.sensor_name,
+                               measurement_name=MeasurementTypes.HUMIDITY,
+                               value=float(humidity_data),
+                               unit=MeasurementUnits.HUMIDITY,
+                               error=error)
+        pressure = Measurement(sensor_name=self.sensor_name,
+                               measurement_name=MeasurementTypes.PRESSURE,
+                               value=float(pressure_data),
+                               unit=MeasurementUnits.PRESSURE,
+                               error=error)
         return [temperature, humidity, pressure]
 
     @staticmethod
