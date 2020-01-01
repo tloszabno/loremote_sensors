@@ -40,9 +40,7 @@ class HumidSensor(Sensor):
             if i > 0:
                 time.sleep(INTERVAL_BETWEEN_MEASURES_IN_S)
             import Adafruit_DHT
-            read = Adafruit_DHT.read_retry(Adafruit_DHT.DHT22, port)
-            logger.info("Humid reading: %s" % str(read))
-            return read
+            return Adafruit_DHT.read_retry(Adafruit_DHT.DHT22, port)
         except Exception as e:
             if attempt >= RETRIES:
                 raise e
