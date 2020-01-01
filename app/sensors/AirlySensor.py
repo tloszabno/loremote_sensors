@@ -1,11 +1,12 @@
-import sys
-import traceback
+import logging
 from typing import List
 
 import requests
 
-from app.sensors.Sensor import Sensor
 from app.measurement.Measurement import Measurement, MeasurementTypes, MeasurementUnits
+from app.sensors.Sensor import Sensor
+
+logger = logging.getLogger('AirlySensor')
 
 
 class AirlySensor(Sensor):
@@ -28,7 +29,7 @@ class AirlySensor(Sensor):
             humidity = get_value(current, 'HUMIDITY')
         except Exception as e:
             error = str(e)
-            traceback.print_stack(file=sys.stderr)
+            logger.exception(error)
 
         measurements = [
             Measurement(sensor_name=self.senor_name,

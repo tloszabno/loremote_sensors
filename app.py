@@ -1,3 +1,4 @@
+import logging
 import sys
 
 from app import config
@@ -16,6 +17,7 @@ listeners = [CacheUpdateListener(cache), TempDifferenceListener()]
 
 
 def main(mocked=False):
+    logging.basicConfig(format='%(asctime)-15s %(message)s', level=logging.INFO)
     sensors = SensorFactory.create_sensors() if not mocked else SensorFactory.create_mocked_sensors()
     measurement_service = MeasurementService(repository=repository, sensors=sensors, listeners=listeners)
     measurement_scheduler = MeasurementScheduler(measurement_service=measurement_service)

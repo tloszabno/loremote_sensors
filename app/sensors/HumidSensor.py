@@ -1,11 +1,12 @@
-import sys
-import traceback
+import logging
 
-from app.sensors.Sensor import Sensor
 from app.measurement.Measurement import Measurement, MeasurementUnits, MeasurementTypes
+from app.sensors.Sensor import Sensor
 
 NUMBER_OF_READS = 3
 RETRIES = 3
+
+logger = logging.getLogger('HumidSensor')
 
 
 class HumidSensor(Sensor):
@@ -22,7 +23,7 @@ class HumidSensor(Sensor):
             humidity_value = float(avgs[0])
         except Exception as e:
             error = str(e)
-            traceback.print_stack(file=sys.stderr)
+            logger.exception(error)
         temperature = Measurement(sensor_name=self.sensor_name, measurement_name=MeasurementTypes.TEMPERATURE,
                                   value=temp_value,
                                   unit=MeasurementUnits.TEMPERATURE, error=error)
@@ -35,7 +36,7 @@ class HumidSensor(Sensor):
         try:
             import Adafruit_DHT
             read = Adafruit_DHT.read_retry(Adafruit_DHT.DHT22, port)
-            print("Humid reading: %s" % str(read))
+            logger.info("Humid reading: %s" % str(read))
             return read
         except Exception as e:
             if attempt >= RETRIES:

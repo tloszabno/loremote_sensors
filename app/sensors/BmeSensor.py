@@ -1,9 +1,10 @@
-import sys
-import traceback
+import logging
 from typing import List
 
 from app.measurement.Measurement import Measurement, MeasurementTypes, MeasurementUnits
 from app.sensors.Sensor import Sensor
+
+logger = logging.getLogger('BmeSensor')
 
 
 class BmeSensor(Sensor):
@@ -40,5 +41,5 @@ class BmeSensor(Sensor):
             temp_data, pressure_data, humidity_data = sensor.get_data()
         except Exception as e:
             error = str(e)
-            traceback.print_stack(file=sys.stderr)
+            logger.exception(error)
         return error, humidity_data, pressure_data / 100.0, temp_data

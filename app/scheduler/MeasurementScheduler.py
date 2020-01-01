@@ -1,12 +1,13 @@
-import sys
+import logging
 import time
-import traceback
+from threading import Thread
 
 import schedule
-from threading import Thread
 
 from app.config import MEASURE_INTERVAL_IN_MIN
 from app.measurement.MeasurementService import MeasurementService
+
+logger = logging.getLogger('MeasurementScheduler')
 
 
 class MeasurementScheduler(object):
@@ -26,7 +27,7 @@ class MeasurementScheduler(object):
         try:
             self.measurement_service.measure()
         except Exception:
-            traceback.print_exc(file=sys.stderr)  # FIXME: add better error handling
+            logger.exception("Exception occurred in scheduler module")
 
     def __execute_scheduled_measurements__(self):
         self.__measure__()

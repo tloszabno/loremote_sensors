@@ -1,4 +1,8 @@
+import logging
+
 from app.measurement.Measurement import MeasurementsSet
+
+logger = logging.getLogger('LogListener')
 
 
 class Listener(object):
@@ -8,4 +12,4 @@ class Listener(object):
 
 class LogListener(Listener):
     def notify(self, measurement: MeasurementsSet):
-        print("Got Measurements: %s" % str(measurement))
+        logger.info("Got Measurements: %s" % str(measurement))
