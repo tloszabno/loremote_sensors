@@ -1,3 +1,6 @@
+import sys
+import traceback
+
 from app.sensors.Sensor import Sensor
 from app.measurement.Measurement import Measurement, MeasurementUnits, MeasurementTypes
 
@@ -19,7 +22,7 @@ class HumidSensor(Sensor):
             humidity_value = float(avgs[0])
         except Exception as e:
             error = str(e)
-
+            print(str(traceback.format_exc()))
         temperature = Measurement(sensor_name=self.sensor_name, measurement_name=MeasurementTypes.TEMPERATURE,
                                   value=temp_value,
                                   unit=MeasurementUnits.TEMPERATURE, error=error)
@@ -31,7 +34,9 @@ class HumidSensor(Sensor):
     def __get_readings_with_retry__(self, port, attempt=0):
         try:
             import Adafruit_DHT
-            return Adafruit_DHT.read_retry(Adafruit_DHT.DHT22, port)
+            read = Adafruit_DHT.read_retry(Adafruit_DHT.DHT22, port)
+            print("Humid reading: %s" % read)
+            return read
         except Exception as e:
             if attempt >= RETRIES:
                 raise e

@@ -1,7 +1,9 @@
+import sys
+
 from app.sensors.Sensor import Sensor
 
 import serial
-
+import traceback
 from app.measurement.Measurement import Measurement, MeasurementUnits
 
 NUMBER_OF_READS = 3
@@ -24,6 +26,7 @@ class PmSensor(Sensor):
         except Exception as e:
             if attempt >= RETRIES:
                 error = str(e)
+                print(str(traceback.format_exc()))
             else:
                 return self.measure(attempt=attempt + 1)
         pm10 = Measurement(sensor_name=self.sensor_name, measurement_name="pm_10", value=pm10_value,

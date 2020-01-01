@@ -1,3 +1,5 @@
+import sys
+import traceback
 from typing import List
 
 from app.measurement.Measurement import Measurement, MeasurementTypes, MeasurementUnits
@@ -38,4 +40,5 @@ class BmeSensor(Sensor):
             temp_data, pressure_data, humidity_data = sensor.get_data()
         except Exception as e:
             error = str(e)
+            print(str(traceback.format_exc()))
         return error, humidity_data, pressure_data / 100.0, temp_data
