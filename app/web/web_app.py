@@ -11,7 +11,7 @@ app = Flask(__name__, static_folder='web')
 logger = logging.getLogger('web_app.py')
 
 
-@app.route('/measurements/<max>')
+@app.route('/api/measurements/<max>')
 def get_last_measurements(max):
     last_measurements = repository.get_last(max=int(max))
     last_measurements = sorted(last_measurements, key=lambda x: x.timestamp, reverse=True)
