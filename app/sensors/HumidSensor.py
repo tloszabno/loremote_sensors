@@ -1,6 +1,7 @@
 import logging
 import time
 
+from app.config import SENSOR_TEMPERATURE_CORRECTION_HUMID_1
 from app.measurement.Measurement import Measurement, MeasurementUnits, MeasurementTypes
 from app.sensors.Sensor import Sensor
 
@@ -22,7 +23,7 @@ class HumidSensor(Sensor):
             readings = [self.__get_readings_with_retry__(self.port, i) for i in range(NUMBER_OF_READS)]
             readings = filter(lambda x:  x is not None and x[0] is not None and x[1] is not None, readings)
             avgs = tuple(map(lambda y: sum(y) / float(len(y)), zip(*readings)))
-            temp_value = float(avgs[1])
+            temp_value = float(avgs[1]) + SENSOR_TEMPERATURE_CORRECTION_HUMID_1
             humidity_value = float(avgs[0])
         except Exception as e:
             error = str(e)
