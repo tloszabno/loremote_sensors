@@ -17,7 +17,7 @@ class Measurement(object):
         return {
             "sensor_name": self.sensor_name,
             "measurement_name": self.measurement_name,
-            "value": str(self.value),
+            "value": str(round(self.value, 2)),
             "unit": str(self.unit),
             "timestamp": self.timestamp.isoformat(),
             "error": self.error
