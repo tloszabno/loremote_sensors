@@ -4,7 +4,7 @@ SENSOR_PORT_HUMID_1 = "21"
 
 SENSOR_NAME_HUMID_2 = "Home"
 
-SENSOR_NAME_PM = "pm sensor"
+SENSOR_NAME_PM = "Home"
 SENSOR_PORT_PM = "/dev/ttyUSB0"
 
 SENSOR_AIRLY_NAME = "Airly Slomczynskiego"
