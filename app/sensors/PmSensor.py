@@ -2,7 +2,7 @@ import logging
 
 import serial
 
-from app.measurement.Measurement import Measurement, MeasurementUnits
+from app.measurement.Measurement import Measurement, MeasurementUnits, MeasurementTypes
 from app.sensors.Sensor import Sensor
 
 NUMBER_OF_READS = 3
@@ -30,9 +30,9 @@ class PmSensor(Sensor):
                 logger.exception(error)
             else:
                 return self.measure(attempt=attempt + 1)
-        pm10 = Measurement(sensor_name=self.sensor_name, measurement_name="pm_10", value=pm10_value,
+        pm10 = Measurement(sensor_name=self.sensor_name, measurement_name=MeasurementTypes.PM_10, value=pm10_value,
                            unit=MeasurementUnits.AIR_POLLUTION, error=error)
-        pm25 = Measurement(sensor_name=self.sensor_name, measurement_name="pm_2.5", value=pm25_value,
+        pm25 = Measurement(sensor_name=self.sensor_name, measurement_name=MeasurementTypes.PM_2_5, value=pm25_value,
                            unit=MeasurementUnits.AIR_POLLUTION, error=error)
         return [pm10, pm25]
 
