@@ -7,4 +7,4 @@ requests
 pyserial
 python-dateutil
 simplejson
-requests
+gspread
