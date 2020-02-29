@@ -11,13 +11,11 @@ from app.repositories.DbRepository import DbRepository
 from app.scheduler.MeasurementScheduler import MeasurementScheduler
 from app.sensors import SensorFactory
 from app.web import web_app
-from app.google.SpreadSheets import get_connection_to_g_api
 
 
-gapi = get_connection_to_g_api()
 repository = DbRepository(config.DB_PATH)
 cache = CachedRepository(repository.get_last(config.ELEMENTS_IN_CACHE))
-listeners = [CacheUpdateListener(cache), TempDifferenceListener(), SpreadSheetUpdateListener(gapi) ]
+listeners = [CacheUpdateListener(cache), TempDifferenceListener(), SpreadSheetUpdateListener() ]
 
 
 def main(mocked=False):
