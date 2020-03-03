@@ -2,6 +2,9 @@
 init:
 	sudo pip3 install -r requirements.txt
 
+init-extra:
+	sudo apt install python-openssl python3-openssl
+	sudo pip3 install gspread oauth2client
 
 test:
 	python3 -m "nose"

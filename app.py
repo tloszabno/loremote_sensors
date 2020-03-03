@@ -3,7 +3,6 @@ import sys
 
 from app import config
 from app.listeners.CacheUpdateListener import CacheUpdateListener
-from app.listeners.SpreadSheetUpdateListener import SpreadSheetUpdateListener
 from app.listeners.TempDifferenceListener import TempDifferenceListener
 from app.measurement.MeasurementService import MeasurementService
 from app.repositories.CachedRepository import CachedRepository
@@ -15,7 +14,7 @@ from app.web import web_app
 
 repository = DbRepository(config.DB_PATH)
 cache = CachedRepository(repository.get_last(config.ELEMENTS_IN_CACHE))
-listeners = [CacheUpdateListener(cache), TempDifferenceListener(), SpreadSheetUpdateListener() ]
+listeners = [CacheUpdateListener(cache), TempDifferenceListener()]
 
 
 def main(mocked=False):
