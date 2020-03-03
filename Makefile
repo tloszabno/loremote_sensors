@@ -10,7 +10,7 @@ test:
 	python3 -m "nose"
 
 run:
-	sudo python3 app.py > /home/pi/loremotelogs.txt 2> /home/pi/loremotelogs_errors.txt
+	sudo python3 app.py > /tmp/log/loremotelogs.txt 2> /tmp/log/loremotelogs_errors.txt
 
 
 run-mocked:
